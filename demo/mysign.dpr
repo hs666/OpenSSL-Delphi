@@ -26,7 +26,6 @@ var
   Buf: AnsiString;
   Len: Integer;
   SigBuf: Array [0..4095] of AnsiChar;
-  SigLen: Integer;
   InBuf: Array[0..511] of AnsiChar;
   _x509: PX509;
   b64: PBIO;
@@ -149,7 +148,7 @@ begin
     SSL_CheckError;
     EVP_VerifyUpdate(@md_ctx, PAnsiChar(Buf), Len);
     SSL_CheckError;
-    EVP_VerifyFinal(@md_ctx, SigBuf, SigLen, pkey);
+    EVP_VerifyFinal(@md_ctx, SigBuf, EVP_PKEY_size(pKey), pkey);
     SSL_CheckError;
     EVP_PKEY_free(pkey);
     Writeln('Verify Ok');
